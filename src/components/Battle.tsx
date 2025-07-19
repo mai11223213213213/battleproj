@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import AbilitiesMenu from './AbilitiesMenu';
 
 
 
@@ -52,18 +53,30 @@ class TestChar {
 
 
 const Battle = () => {
-
+const FirstMove = () => {
+  let randomNum = generateRandomNumber(1,2);
+  switch(randomNum){
+    case 1:
+      return "player1"
+      break;
+    case 2:
+      return "player2"
+  }
+}
 let Player1 = new TestChar()
 let Player2 = new TestChar()
-
-const Abilities = (e:React.MouseEvent<HTMLButtonElement>) => {
-  let getId = e.currentTarget.id
-  console.log(getId)
-  switch(getId){
+let WhoMove = FirstMove()
+let Player1Move = null
+let Player2Move = null 
+let abititiesMenu = null
+const Abilities = () => {
+  
+  switch(WhoMove){
     case "player1":
-
+      abititiesMenu = <AbilitiesMenu player={Player1}/>
       break;
     case "player2":
+      abititiesMenu = <AbilitiesMenu player={Player2}/>
       break;
 
 
@@ -76,7 +89,7 @@ const Abilities = (e:React.MouseEvent<HTMLButtonElement>) => {
 
   return (
     <div className='battle-area'>
-      <div className="AbillitiesArea"></div>
+      <div className="AbillitiesArea">{abititiesMenu}</div>
       <div className="player1">
         <p className="player1-name"> {Player1.CharacterName}</p>
         <button className="atk-btn" id='player1' onClick={Abilities}>Attack</button>
