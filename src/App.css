@@ -1,16 +1,14 @@
 .battle-area {
-  width: 250px;
   display: flex;
   margin: 0 auto;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
 }
-.battle-area .player1 {
+.battle-area .navigation {
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
 }
-.battle-area .player2 {
-  display: flex;
-  flex-direction: column;
+.battle-area .AbillitiesArea {
+  position: absolute;
 }/*# sourceMappingURL=App.css.map */

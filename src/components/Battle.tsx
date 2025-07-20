@@ -1,21 +1,45 @@
 import React, { useState } from 'react'
 import AbilitiesMenu from './AbilitiesMenu';
 
-
+export interface Character {
+  CharacterName: string;
+  maxHealth: number;
+  currHealth: number;        
+  setCurH: (value: number) => void;  
+  maxMana: number;
+  currMana: number;         
+  setCurM: (value: number) => void;  
+  abilities: ability[];
+}
+export type ability = {
+  name: string;
+  description: string;
+  skillPower: number;
+  manaCost: number;
+  type: "attack" | "protection" | "heal"; // More specific type
+};
 
 
 const generateRandomNumber = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-class TestChar {
+class TestChar implements Character{
     CharacterName:string = "Test"
     maxHealth: number = 100;
-    currHealth = useState(this.maxHealth)
+    
     maxMana: number = 100;
-    currMana = useState(0)
+   
+    private healthState = useState(this.maxHealth);
+    currHealth = this.healthState[0];  
+    setCurH = this.healthState[1];     
+
+  
+    private manaState = useState(0);
+    currMana = this.manaState[0];      // Current value
+    setCurM = this.manaState[1];       // Setter
     
 
-    abilities : any = [
+    abilities : ability[] = [
       {
         name:"basic attack",
         description:"just basic attack, nothing special",
@@ -53,12 +77,13 @@ class TestChar {
 
 
 const Battle = () => {
+
 const FirstMove = () => {
   let randomNum = generateRandomNumber(1,2);
   switch(randomNum){
     case 1:
       return "player1"
-      break;
+      
     case 2:
       return "player2"
   }
@@ -68,15 +93,21 @@ let Player2 = new TestChar()
 let WhoMove = FirstMove()
 let Player1Move = null
 let Player2Move = null 
-let abititiesMenu = null
-const Abilities = () => {
-  
+let [abititiesMenu, setAbM] = useState<Character>()
+let [currType , serCurrType] = useState<string>()
+const Abilities = (event: React.MouseEvent<HTMLButtonElement>) => {
+  let currBtn = event.currentTarget.classList[0]
   switch(WhoMove){
     case "player1":
-      abititiesMenu = <AbilitiesMenu player={Player1}/>
+      
+      setAbM(Player1)
+      console.log(abititiesMenu)
+      serCurrType(currBtn)
       break;
     case "player2":
-      abititiesMenu = <AbilitiesMenu player={Player2}/>
+      setAbM(Player2)
+      console.log(abititiesMenu)
+      serCurrType(currBtn)
       break;
 
 
@@ -89,21 +120,16 @@ const Abilities = () => {
 
   return (
     <div className='battle-area'>
-      <div className="AbillitiesArea">{abititiesMenu}</div>
-      <div className="player1">
-        <p className="player1-name"> {Player1.CharacterName}</p>
-        <button className="atk-btn" id='player1' onClick={Abilities}>Attack</button>
-        <button className="protect-btn" id='player1'>Defence</button>
-        <button className="heal-btn" id='player1'>Heal</button>
+      <div className="AbillitiesArea">
+        {abititiesMenu && <AbilitiesMenu player={abititiesMenu} type={currType}/>}
       </div>
-      <div className="player2">
-        <p className="player1-name"> {Player2.CharacterName}</p>
-        <button className="atk-btn" id='player2'>Attack</button>
-        <button className="protect-btn" id='player2'>Defence</button>
-        <button className="heal-btn" id='player2'> Heal</button>
+      <div className="navigation">
+        <p className="player1-name"> {Player1.CharacterName}</p>
+        <button className="attack"  onClick={Abilities}>Attack</button>
+        <button className="protection" onClick={Abilities}>Defence</button>
+        <button className="heal" onClick={Abilities}>Heal</button>
       </div>
 
-      
     </div>
   )
 }

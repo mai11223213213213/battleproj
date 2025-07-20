@@ -1,21 +1,19 @@
 .battle-area{
-    
-    width: 250px;
     display: flex;
     margin: 0 auto;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    .player1{
+   
+    .navigation{
+        margin: 0 auto;
         display: flex;
         flex-direction: column;
+        
     }
-    .player2{
-        display: flex;
-        flex-direction: column;
-    }
+    
     .AbillitiesArea{
-        border: 3px black solid;
+        position: absolute;
+        
     }
 
     
